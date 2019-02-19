@@ -7,6 +7,28 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+header {
+  background-color: #d92b52;
+}
+
+button {
+    border-top-width: 1px!important;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 10px!important;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.btn-outline-secondary {
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
+.btn-block {
+    width: 94%!important;
+}
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

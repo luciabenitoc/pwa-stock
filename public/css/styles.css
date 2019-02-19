@@ -1,0 +1,14 @@
+body {
+	font-family: Courier New;
+}
+h1 {
+	font-size: 32px;
+}
+h4 {
+	font-size: 18px;
+}
+
+.product-item {
+	margin-bottom: 30px;
+}
+
