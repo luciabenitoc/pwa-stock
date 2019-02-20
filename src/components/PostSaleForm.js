@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Proptypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchProduct } from '../actions/productActions';
+import { fetchProduct, createProduct } from '../actions/productActions';
 
 
 class PostSaleForm extends Component {
@@ -12,6 +12,7 @@ class PostSaleForm extends Component {
 			product: '',
 			description: '',
 			price:'',
+			cant:'',
 			client:''
 		}
 		this.onChange = this.onChange.bind(this);
@@ -25,7 +26,7 @@ class PostSaleForm extends Component {
 
 	onSubmit(event) {
 		event.preventDefault();
-		const post = {
+		const sell = {
 			code: this.state.code,
 			product: this.state.product,
 			description: this.state.description,
@@ -33,6 +34,7 @@ class PostSaleForm extends Component {
 			cant: this.state.cant,
 			client: this.state.client
 		}
+		this.props.createProduct(sell);
 	}
 
 	onClickSearch(event) {
@@ -42,6 +44,17 @@ class PostSaleForm extends Component {
 		//call action
 		//this.props.createPost(post);
 	}
+	
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.product) {
+			this.setState({
+				'product': nextProps.product.product,
+				'description': nextProps.product.description,
+				'price': nextProps.product.price
+			});
+		}
+	}
+
 	render() {
 		console.log(this.props);
 		return (
@@ -66,7 +79,7 @@ class PostSaleForm extends Component {
 					<div className="row">	
 						<div className="form-group col-sm-12">
 							<label className="col-sm-2 col-form-label" htmlFor="description">Descripción: </label> <br />
-							<textarea className="form-control" name="description" id="description" rows="3" onChange={this.onChange} value={ this.props.product.description } disabled/>
+							<textarea className="form-control" name="description" id="description" rows="3" onChange={this.onChange} value={ this.state.description } disabled/>
 						</div>
 					</div>
 					<div className="row">
@@ -76,19 +89,19 @@ class PostSaleForm extends Component {
 						</div>
 						<div className="form-group col-sm-6">
 							<label className="col-sm-2 col-form-label" htmlFor="cant">Cantidad: </label> <br />
-							<input className="form-control" type="text" name="cant" id="cant" onChange={this.onChange} value={ this.state.cant} disabled/>
+							<input className="form-control" type="text" name="cant" id="cant" onChange={this.onChange} value={ this.state.cant} disabled={!this.state.product}/>
 						</div>
 					</div>
-					<div className="form-group row">
-						<label className="col-sm-2 col-form-label" htmlFor="client">Cliente: </label> <br />
-						<div className="col-sm-10">
-							<input className="form-control" type="text" name="client" id="client" onChange={this.onChange} value={ this.state.client } />
+					<div className="row">
+						<div className="form-group col-sm-12">
+							<label className="col-sm-2 col-form-label" htmlFor="client">Cliente: </label> <br />
+							<input className="form-control" type="text" name="client" id="client" onChange={this.onChange} value={ this.state.client } disabled={!this.state.product}/>
 						</div>
 					</div>
 					<br />
 					<div className="row justify-content-md-center">
 						<button className="col-md-2 btn btn-danger" onClick={() => this.props.history.push("/")}> Cancelar </button>
-						<button className="col-md-2  btn btn-info" type="submit"> Cargar </button>
+						<button className="col-md-2  btn btn-info" type="submit" onClick={this.onSubmit}> Cargar </button>
 					</div>
 				</form>
 			</div>
@@ -96,18 +109,19 @@ class PostSaleForm extends Component {
 	}
 }
 
-const mapStateToprops = state => ({
+const mapStateToProps = state => ({
 	product: state.posts.item
 });
 
-
+const mapDispatchToProps = {fetchProduct, createProduct};
 
 PostSaleForm.Proptypes = {
 	fetchProduct: Proptypes.func.isRequired,
+	createProduct: Proptypes.func.isRequired,
 	product: Proptypes.object
 }
 
-export default connect(mapStateToprops, { fetchProduct })(PostSaleForm);
+export default connect(mapStateToProps, mapDispatchToProps)(PostSaleForm);
 
 //PostForm es un formulario para dar de alta una nueva venta realizada. 
 //Debe traer los datos del producto a partir de su codigo de producto.

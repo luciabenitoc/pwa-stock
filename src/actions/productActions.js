@@ -21,3 +21,7 @@ export const fetchProduct = (productCode) => dispatch => {
 		payload: product
 	})
 }
+
+export const createProduct = (data) => dispatch=> {
+	console.log('hola', data);
+}
