@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPosts } from '../actions/postActions';
+import { fetchProducts } from '../actions/productActions';
 
 
-class Posts extends Component {
+class Products extends Component {
 	/** Esto es parte de lo que ahora maneja redux
 	constructor (props){
 		super(props);
@@ -22,27 +22,27 @@ class Posts extends Component {
 	**/
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.newPost) {
-			this.props.posts.unshift(nextProps.newPost);
+		if (nextProps.newProduct) {
+			this.props.products.unshift(nextProps.newProduct);
 		}
 	}
 
 	componentWillMount() {
-		this.props.fetchPosts();
+		this.props.fetchProducts();
 	}
 
 	render() {
-		const postItems = this.props.posts.map( post => (
+		const productItems = this.props.products.map( product => (
 			
-	   		<div key={ post.id } className="col-lg-3 col-md-4 col-sm-12">
+	   		<div key={ product.code } className="col-lg-3 col-md-4 col-sm-12">
 				<div className="card h-100 justify-content-sm-center" >
 			   		<img className="card-img-top img-fluid" src="img-PWA/portaLapiz.jpg" href="#" />
 					<div className="card-body">
-				    	<h4 className="card-title">{ post.title }<span className="badge badge-light">9</span></h4>
-					  	<p className="card-text d-sm-block d-none">{ post.body }</p>
+				    	<h4 className="card-title">{ product.product }<span className="badge badge-light">9</span></h4>
+					  	<p className="card-text d-sm-block d-none">{ product.description }</p>
 					</div>
 					<div className="card-footer">
-		      			<small className="text-muted">$200</small>
+		      			<small className="text-muted">{ product.price }</small>
 			    	</div>
 				</div>  
 	   		</div>		
@@ -51,26 +51,26 @@ class Posts extends Component {
 			<div className="container">
 				<div className="row justify-content-between">
 					<h1> Listado de Productos</h1>
-					<button className="col-lg-3 btn btn-info" onClick={() => this.props.history.push("/new")}>Nuevo</button>
+					<button className="col-lg-3 btn btn-info" onClick={() => this.props.history.push("/newProduct")}>Nuevo</button>
 				</div>
 				<br/>
 				<div className="row">
-					{ postItems }
+					{ productItems }
 				</div>
 			</div>
 			);
 	}
 }
 
-Posts.proptypes = {
-	fetchPosts: PropTypes.func.isRequired, 
-	posts: PropTypes.array.isRequired,
-	newPost: PropTypes.object
+Products.proptypes = {
+	fetchProducts: PropTypes.func.isRequired, 
+	products: PropTypes.array.isRequired,
+	newProduct: PropTypes.object
 }
 
 const mapStateToprops = state => ({
-	posts: state.posts.items,
-	newPost: state.posts.item
+	products: state.products.items,
+	newProduct: state.products.item
 });
 
-export default connect(mapStateToprops, { fetchPosts })(Posts);
+export default connect(mapStateToprops, { fetchProducts })(Products);
