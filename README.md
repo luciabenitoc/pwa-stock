@@ -49,3 +49,8 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 - Build the production bundle `npm run build`
 - Deploy to google `firebase deploy`
  
+## How to test google function locally
+
+- Code the function in functions/index.js
+- Start google test server `firebase serve`
+- Interact with your function in the given url (for exaample: http://localhost:5001/proyecto-pwa-f2f10/us-central1/helloWorld)
