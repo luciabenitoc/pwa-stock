@@ -36,13 +36,7 @@ function getProductsHandler(req, res){
 	res.status(200).send(Products);
 }
 
-// Definición del Router
-app.get('/', getProductsHandler);
-
-
-
-// GET - Find product by code
-// Returns a single product
+// GET - Find product by code - Returns a single product
 function getByCode(code){
 	//Todos los productos en el array Products, con filter lo recorro y genera otro array con el objeto q corresponde al code
 	productRes = Products.filter((element)=>element.code === code);
@@ -62,25 +56,26 @@ function getProductHandler(req, res) {
 		res.status(200).send(products[0]);
 	}
 }
-// Definición del Router
-app.get('/:code', getProductHandler);
-
-
-
 
 
 // POST - Add a new product to the stock
-// Definir la funcion create()
+// Definir la funcion create() deberia crear el producto y desp add a la lista de productos
+function createProduct(body) {
+	var newProduct= {
+		code: body.code,
+		product: body.product,
+		description: body.description,
+		price: body.price
+	}
+	Products.push(newProduct);
+	return newProduct;
+}
 
 function postProduct(req, res) {
 	console.log('postNewProduct', req.body);
-	var newProduct = Products.create(req.body);
+	var newProduct = createProduct(req.body);
 	res.send(newProduct);
 }
-
-// Definición del Router
-app.post('/product', postProduct);
-
 
 
 // PUT - Update an existing product
@@ -110,6 +105,18 @@ function postSell(req, res) {
 }
 
 app.post('/sell', postSell);
+
+
+
+
+//todas las definiciones del Router juntas
+//GET
+app.get('/', getProductsHandler);
+app.get('/:code', getProductHandler);
+//POST
+app.post('/product', postProduct);
+
+
 
 // Monto la aplicacion en /api
 // Expose Express API as a single Cloud Function:

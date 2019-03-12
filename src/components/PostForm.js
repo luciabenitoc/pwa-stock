@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Proptypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createProduct } from '../actions/productActions';
+import { fetchProduct, createProduct } from '../actions/productActions';
 
 const PORCENTAGE = 0.3;
 
@@ -18,10 +18,17 @@ class PostForm extends Component {
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 		this.getTotal = this.getTotal.bind(this);
+		this.onClickSearch = this.onClickSearch.bind(this);
 	}
 
 	onChange(event) {
 		this.setState({[event.target.name]: event.target.value});
+	}
+
+	onClickSearch(event) {
+		if (this.state.code !== null) {
+			this.props.fetchProduct(this.state.code);
+		}
 	}
 
 	getTotal() {
@@ -45,6 +52,7 @@ class PostForm extends Component {
 		//call action
 		console.log('carga producto', product);
 		this.props.createProduct(product);
+		this.props.history.push("/stock");
 	}
 	render() {
 		return (
@@ -57,7 +65,12 @@ class PostForm extends Component {
 					<div className="row">
 						<div className="form-group col-sm-4">
 							<label className="col-form-label" htmlFor="code">Código: </label> <br />
-							<input className="form-control" type="text" name="code" id="code" onChange={this.onChange} value={ this.state.code } />
+							<div className="input-group">
+								<input className="form-control" type="text" name="code" id="code" onChange={this.onChange} value={ this.state.code } />
+								<div className="input-group-append">
+						    		<button onClick={this.onClickSearch} className="btn btn-outline-secondary" type="button"><i className="fa fa-thumbs-up"></i></button>
+						  		</div>
+						  	</div>
 						</div>
 						<div className="form-group col-sm-8">
 							<label className="col-form-label" htmlFor="product">Producto: </label> <br />
@@ -71,19 +84,19 @@ class PostForm extends Component {
 						</div>
 						<div className="form-group col-sm-6">
 							<label className="col-form-label" htmlFor="price_end">Precio de Venta: </label> <br />
-							<input className="form-control" type="text" name="price_end" id="price_end" value={this.getTotal()} disabled />
+							<input className="form-control" type="text" name="price_end" id="price_end" value={this.getTotal()} readOnly />
 						</div>
 					</div>
 					<div className="row">
 						<div className="form-group col-sm-12">
-							<label className="col-form-label" htmlFor="description">Descripcion: </label> <br />
+							<label className="col-form-label" htmlFor="description">Descripción: </label> <br />
 							<textarea className="form-control" name="description" id="description" rows="3" onChange={this.onChange} value={ this.state.description } />
 						</div>
 					</div>
 					<br />
 					<div className="row justify-content-md-center">
 						<button className="col-md-2 btn btn-danger" onClick={() => this.props.history.push("/")}> Cancelar </button>
-						<button className="col-md-2  btn btn-info" type="submit" onClick={this.onSubmit}> Crear </button>
+						<button className="col-md-2  btn btn-info" type="submit" onClick={this.onSubmit} > Cargar </button>
 					</div>
 				</form>
 			</div>
@@ -91,13 +104,19 @@ class PostForm extends Component {
 	}
 }
 
+const mapStateToProps = state=> ({
+	product: state.products.item,
+	newProduct: state.products.newProduct
+});
+
+const mapDispatchToProps = {fetchProduct, createProduct}; 
+
 PostForm.Proptypes = {
-	createProduct: Proptypes.object
+	fetchProduct: Proptypes.func.isRequired,
+	newProduct: Proptypes.object
 }
 
-export default connect(null, { createProduct })(PostForm);
+export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
 
-//PostForm es un formulario para dar de alta una nueva venta realizada. 
-//Debe traer los datos del producto a partir de su codigo de producto.
-//Debo poder guardar el nombr ey apellido de a quien se realizo la venta, para mas adelante poder capturar deudas y lanzar alertas.
-//Una vez cargada la venta se debe ver reflejado en el stock.
+//PostForm es un formulario para dar de alta un nuevo producto a la venta. 
+// Cuando ingreso el codigo del producto a crear debo verificar que no haya otro con ese mismo
