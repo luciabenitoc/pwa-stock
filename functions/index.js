@@ -65,7 +65,7 @@ function createProduct(body) {
 		code: body.code,
 		product: body.product,
 		description: body.description,
-		price: body.price
+		price: body.price_end
 	}
 	Products.push(newProduct);
 	return newProduct;

@@ -46,14 +46,20 @@ class PostForm extends Component {
 			code: this.state.code,
 			product: this.state.product,
 			description:  this.state.description,
-			price: this.price,
+			price: this.state.price,
 			price_end: this.getTotal()
 		}
 		//call action
 		console.log('carga producto', product);
 		this.props.createProduct(product);
-		this.props.history.push("/stock");
 	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.newProduct) {
+			this.props.history.push("/stock");
+		}
+	}
+
 	render() {
 		return (
 			<div className="container">
