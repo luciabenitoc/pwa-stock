@@ -1,4 +1,4 @@
-import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_SELL, NEW_PRODUCT } from './types';
+import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_SELL, NEW_PRODUCT, UPDATE_PRODUCT } from './types';
 
 //const PRODUCT_MOCK = {
 //	code: '1234',
@@ -70,6 +70,25 @@ export const createProduct = (data) => dispatch=> {
 			payload:product
 			})
 		);
+}
+
+export const updateProduct = (data) => dispatch=> {
+	console.log('actions Update', data);
+	const url = API_URL + 'product/';
+	fetch(url , {
+		method: 'PUT',
+		headers: {
+			'content-type': 'application/json'
+		},
+		body: JSON.stringify(data)
+	})
+	.then(res => res.json())
+	.then(product =>
+		dispatch({
+			type: UPDATE_PRODUCT,
+			payload:product
+		})
+	);
 }
 
 export const createSell = (data) => dispatch=> {

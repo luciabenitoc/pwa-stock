@@ -1,4 +1,4 @@
-import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_PRODUCT, NEW_SELL } from '../actions/types';
+import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_PRODUCT, UPDATE_PRODUCT, NEW_SELL } from '../actions/types';
 
 const initialState = {
 	items: [],
@@ -24,6 +24,11 @@ export default function(state = initialState, action){
 		return {
 			...state,
 			newProduct: action.payload
+		}
+		case UPDATE_PRODUCT:
+		return {
+			...state,
+			item: action.payload
 		}
 		case NEW_SELL:
 		return {
