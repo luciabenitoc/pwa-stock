@@ -1,12 +1,9 @@
+const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 
-// Create and Deploy Your First Cloud Functions
-// https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//	response.send("Hello from Firebase!");
-// });
+admin.initializeApp(functions.config().firebase);
 
+var db = admin.firestore();
 
 const express = require('express');
 const cors = require('cors');
@@ -27,18 +24,30 @@ const Products = [
 		code: '1234',
 		product: 'algo',
 		description: 'description algo',
-		price: 123.12
+		price: 100,
+		price_end: 123.12,
+		cant_product: 2
 	}
 ]
 
 // GET - All the Products
 function getProductsHandler(req, res){
-	res.status(200).send(Products);
+	const stockCollection = db.collection('stock');
+	const products = [];
+	stockCollection.get().then(snapshot => {
+		snapshot.forEach(doc => {
+			let docData = doc.data();
+			docData.code = doc.id;
+			products.push(docData);
+		})
+	}).then(() => {
+		res.status(200).send(products);
+    });
 }
+
 
 // GET - Find product by code - Returns a single product
 function getByCode(code){
-	//Todos los productos en el array Products, con filter lo recorro y genera otro array con el objeto q corresponde al code
 	productRes = Products.filter((element)=>element.code === code);
 	return (productRes);
 }
@@ -65,37 +74,55 @@ function createProduct(body) {
 		code: body.code,
 		product: body.product,
 		description: body.description,
-		price: body.price_end
+		price: body.price,
+		price_end: body.price_end,
+		cant_product: body.cant_product
 	}
-	Products.push(newProduct);
 	return newProduct;
 }
 
 function postProduct(req, res) {
-	console.log('postNewProduct', req.body);
 	var newProduct = createProduct(req.body);
 	res.send(newProduct);
+
+	var docRef = db.collection('stock').doc(newProduct.code);
+	var setStock = docRef.set({
+	  product_name: newProduct.product,
+	  description: newProduct.description,
+	  price: parseFloat(newProduct.price),
+	  price_end: parseFloat(newProduct.price_end),
+	  cant: parseInt(newProduct.cant_product)
+	});
 }
 
 
 // PUT - Update an existing product
-function update(req, res) {
-	var idProduct = req.params.id
-	res.send(Products.update(idProduct, req.body));
+function update(product, body) {
+	var productForUpdate = getByCode(code);
+	var docRef = db.collection('stock').doc(productForUpdate.code);
+
+	var setStock = docRef.set(product);
 }
-// Definición del Router
-app.put('/id', update);
+
+
+function updateProduct(req, res) {
+	var code = req.params.code
+
+	res.send(Products.update(code, req.body));
+}
+
+
 
 
 
 // DELETE - Deletes a product
-//app.delete('/:id', (req, res) => res.send(Widgets.delete(req.params.id)));
+//app.delete('/:code', (req, res) => res.send(Widgets.delete(req.params.code)));
 //function delete(req, res) {
-//	res.send(Product.delete(req.params.id));
+//	res.send(Product.delete(req.params.code));
 //}
 
 // Definición del Router
-//app.delete('/id', delete);
+//app.delete('/code', delete);
 
 
 //POST SELL
@@ -115,8 +142,11 @@ app.get('/', getProductsHandler);
 app.get('/:code', getProductHandler);
 //POST
 app.post('/product', postProduct);
-
-
+//PUT
+app.put('/product', updateProduct);
+//DELETE
+//Que quisiera borrar?? porque productos es medio
+//app.delete('/code', delete);
 
 // Monto la aplicacion en /api
 // Expose Express API as a single Cloud Function:
