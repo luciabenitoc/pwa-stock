@@ -13,7 +13,8 @@ class PostForm extends Component {
 			product: '',
 			description: '',
 			price: '',
-			price_end: ''
+			price_end: '',
+			cant_product: ''
 		}
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
@@ -47,7 +48,8 @@ class PostForm extends Component {
 			product: this.state.product,
 			description:  this.state.description,
 			price: this.state.price,
-			price_end: this.getTotal()
+			price_end: this.getTotal(),
+			cant_product: this.state.cant_product
 		}
 		//call action
 		console.log('carga producto', product);
@@ -55,6 +57,13 @@ class PostForm extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
+		if (nextProps.product) {
+			this.setState({
+				'product': nextProps.product.product,
+				'description': nextProps.product.description,
+				'price_end': nextProps.product.price_end
+			});
+		}
 		if (nextProps.newProduct) {
 			this.props.history.push("/stock");
 		}
@@ -84,13 +93,17 @@ class PostForm extends Component {
 						</div>
 					</div>
 					<div className="row">
-						<div className="form-group col-sm-6">
+						<div className="form-group col-sm-4">
 							<label className="col-form-label" htmlFor="price">Precio: </label> <br />
 							<input className="form-control" type="text" name="price" id="price" onChange={this.onChange} value={this.state.price} />
 						</div>
-						<div className="form-group col-sm-6">
+						<div className="form-group col-sm-4">
 							<label className="col-form-label" htmlFor="price_end">Precio de Venta: </label> <br />
 							<input className="form-control" type="text" name="price_end" id="price_end" value={this.getTotal()} readOnly />
+						</div>
+						<div className="form-group col-sm-4">
+							<label className="col-form-label" htmlFor="cant_product">Cantidad: </label> <br />
+							<input className="form-control" type="text" name="cant_product" id="cant_product" onChange={this.onChange} value={this.state.cant_product} />
 						</div>
 					</div>
 					<div className="row">

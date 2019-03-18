@@ -11,8 +11,8 @@ class PostSaleForm extends Component {
 			code:'',
 			product: '',
 			description: '',
-			price:'',
-			cant:'',
+			price_end:'',
+			cant_sell:'',
 			total:'',
 			client:''
 		}
@@ -31,9 +31,9 @@ class PostSaleForm extends Component {
 			code: this.state.code,
 			product: this.state.product,
 			description: this.state.description,
-			price: this.state.price,
-			cant: this.state.cant,
-			total: (this.state.price * this.state.cant), 
+			price_end: this.state.price_end,
+			cant_sell: this.state.cant_sell,
+			total: (this.state.price_end * this.state.cant_sell), 
 			client: this.state.client
 		}
 		console.log('onsubmit',sell);
@@ -53,7 +53,7 @@ class PostSaleForm extends Component {
 			this.setState({
 				'product': nextProps.product.product,
 				'description': nextProps.product.description,
-				'price': nextProps.product.price
+				'price_end': nextProps.product.price_end
 			});
 		}
 		if (nextProps.newSell) {
@@ -92,20 +92,20 @@ class PostSaleForm extends Component {
 					<div className="row">
 						<div className="col-md-3 col-6">
 							<div className="form-group">
-								<label className="col-form-label" htmlFor="price">Precio: </label> 
-								<input className="form-control" type="text" name="price" id="price" onChange={this.onChange} value={ this.state.price } disabled/>
+								<label className="col-form-label" htmlFor="price_end">Precio: </label> 
+								<input className="form-control" type="text" name="price_end" id="price_end" onChange={this.onChange} value={ this.state.price_end } disabled/>
 							</div>
 						</div>
 						<div className="col-md-3 col-6">
 							<div className="form-group">
-								<label className="col-form-label" htmlFor="cant">Cantidad: </label> <br />
-								<input className="form-control" type="text" name="cant" id="cant" onChange={this.onChange} value={ this.state.cant} disabled={!this.state.product}/>
+								<label className="col-form-label" htmlFor="cant_sell">Cantidad: </label> <br />
+								<input className="form-control" type="text" name="cant_sell" id="cant_sell" onChange={this.onChange} value={ this.state.cant_sell} disabled={!this.state.product}/>
 							</div>
 						</div>
 						<div className="col-md-6 col-12">
 							<div className="form-group">
 								<label className="col-form-label" htmlFor="total">Total:</label>
-								<input className="form-control" type="text" name="total" id="total" value={this.state.price * this.state.cant} disabled/>
+								<input className="form-control" type="text" name="total" id="total" value={this.state.price_end * this.state.cant_sell} disabled/>
 							</div> 
 						</div>
 					</div>

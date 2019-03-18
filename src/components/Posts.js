@@ -38,11 +38,18 @@ class Products extends Component {
 				<div className="card h-100 justify-content-sm-center" >
 			   		<img className="card-img-top img-fluid" src="img-PWA/portaLapiz.jpg" href="#" />
 					<div className="card-body">
-				    	<h4 className="card-title">{ product.product }<span className="badge badge-light">9</span></h4>
+				    	<h4 className="card-title">{ product.product }
+				    		<span className="badge badge-light float-right">{ product.cant_product }</span>
+				    	</h4>
 					  	<p className="card-text d-sm-block d-none">{ product.description }</p>
+					  	<div className="alert alert-danger" role="alert">
+					  		{ product.code }
+  							This is a danger alert—check it out!
+					  		}
+						</div>
 					</div>
 					<div className="card-footer">
-		      			<small className="text-muted">{ product.price }</small>
+		      			<small className="text-muted">{ product.price_end }</small>
 			    	</div>
 				</div>  
 	   		</div>		
