@@ -74,7 +74,7 @@ export const createProduct = (data) => dispatch=> {
 
 export const updateProduct = (data) => dispatch=> {
 	console.log('actions Update', data);
-	const url = API_URL + 'product/';
+	const url = API_URL + 'product/' + data.code;
 	fetch(url , {
 		method: 'PUT',
 		headers: {
@@ -93,13 +93,27 @@ export const updateProduct = (data) => dispatch=> {
 
 export const createSell = (data) => dispatch=> {
 	console.log('actions', data);
+	var sellData = {
+		client: data.client,
+		items: [
+			{
+				description: data.description,
+				price_end: data.price_end,
+				cant_sell: data.cant_sell,
+				code: data.code,
+				product: data.product,
+				total: data.total,
+			}
+		]
+	}
+
 	const url = API_URL + 'sell/';
 	fetch(url , {
 		method: 'POST',
 		headers: {
 			'content-type': 'application/json'
 		},
-		body: JSON.stringify(data)
+		body: JSON.stringify(sellData)
 	})
 	.then(res => res.json())
 	.then(product =>
