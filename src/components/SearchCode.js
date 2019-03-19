@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import Proptypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchProduct } from '../actions/productActions';
+import { fetchProduct, updateProduct } from '../actions/productActions';
 
 class SearchCodeForEdit extends Component {
 	constructor (props){
 		super(props);
 		this.state = {
+			product: '',
 			code: '',
+			price: '',
+			price_end: '',
+			cant_product: '',
+			description: ''
 		}
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
@@ -112,10 +117,11 @@ const mapStateProps = state=> ({
 	product: state.products.item
 });
 
-const mapDispatchToProps = {fetchProduct}; 
+const mapDispatchToProps = {fetchProduct, updateProduct}; 
 
 SearchCodeForEdit.Proptypes = {
-	fetchProduct: Proptypes.func.isRequired
+	fetchProduct: Proptypes.func.isRequired,
+	updateProduct: Proptypes.func.isRequired
 }
 
 export default connect(mapStateProps, mapDispatchToProps)(SearchCodeForEdit);
