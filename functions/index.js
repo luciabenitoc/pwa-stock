@@ -18,20 +18,8 @@ app.use(cors({ origin: true }));
 
 // build multiple CRUD interfaces:
 
-// Este array de un objeto simula ser la DB por el momento.
-const Products = [
-	{
-		code: '1234',
-		product: 'algo',
-		description: 'description algo',
-		price: 100,
-		price_end: 123.12,
-		cant_product: 2
-	}
-]
-
 // GET - All the Products
-function getProductsHandler(req, res){
+function getProductsHandler(req, res) {
 	const stockCollection = db.collection('stock');
 	const products = [];
 	stockCollection.get().then(snapshot => {
@@ -47,28 +35,44 @@ function getProductsHandler(req, res){
 
 
 // GET - Find product by code - Returns a single product
-function getByCode(code){
-	productRes = Products.filter((element)=>element.code === code);
-	return (productRes);
-}
+	//function getByCode(code) {
+	//	const stockCollection = db.collection('stock');
+	//	const products = [];
+	//	const promise = stockCollection.where('code', '==', code).get().then(snapshot => {
+	//		snapshot.forEach(doc => {
+	//			let docData = doc.data();
+	//			docData.code = doc.id;
+	//			products.push(docData);
+	//      });
+	//    });
+	//    return promise;
+	//}
 
 function getProductHandler(req, res) {
 	var codeReq = req.params.code;
-	var products = getByCode(codeReq);
-	//si recorri todos los Products y no encontre el code debo responder status 404 product not found 
-	if (products.length === 0) {
-		//es que esta vacio el nuevo array por ende no lo encontre
-	 	//deberia devolver el 404 
-	 	res.status(404).send();
-	} else {
-		//lo encontro, lo devuelve y esta todo ok
-		res.status(200).send(products[0]);
-	}
+	const stockCollection = db.collection('stock');
+	const products = [];
+	stockCollection.where('code', '==', codeReq).get().then(snapshot => {
+		snapshot.forEach(doc => {
+			let docData = doc.data();
+			docData.code = doc.id;
+			products.push(docData);
+     	})
+    }).then(() => {
+		//si recorri todos los Products y no encontre el code debo responder status 404 product not found 
+		if (products.length === 0) {
+			//es que esta vacio el nuevo array por ende no lo encontre
+		 	//deberia devolver el 404 
+		 	res.status(404).send();
+		} else {
+			//lo encontro, lo devuelve y esta todo ok
+			res.status(200).send(products[0]);
+		}
+	})
 }
 
 
 // POST - Add a new product to the stock
-// Definir la funcion create() deberia crear el producto y desp add a la lista de productos
 function createProduct(body) {
 	var newProduct= {
 		code: body.code,
@@ -76,7 +80,8 @@ function createProduct(body) {
 		description: body.description,
 		price: body.price,
 		price_end: body.price_end,
-		cant_product: body.cant_product
+		cant: body.cant,
+		imagen: body.imagen
 	}
 	return newProduct;
 }
@@ -91,29 +96,23 @@ function postProduct(req, res) {
 	  description: newProduct.description,
 	  price: parseFloat(newProduct.price),
 	  price_end: parseFloat(newProduct.price_end),
-	  cant: parseInt(newProduct.cant_product)
+	  cant: parseInt(newProduct.cant),
+	  imagen: newProduct.imagen
 	});
 }
 
 
 // PUT - Update an existing product
-function update(product, body) {
-	var productForUpdate = getByCode(code);
-	var docRef = db.collection('stock').doc(productForUpdate.code);
-
-	var setStock = docRef.set(product);
-}
-
-
 function updateProduct(req, res) {
-	var code = req.params.code
+	var code = req.params.code;
+	var docRef = db.collection('stock').doc(code);
 
-	res.send(Products.update(code, req.body));
+	var setStock = docRef.update(req.body).then(() => {
+		var data = req.body;
+		data.id = code;
+		res.send(data);
+	});
 }
-
-
-
-
 
 // DELETE - Deletes a product
 //app.delete('/:code', (req, res) => res.send(Widgets.delete(req.params.code)));
@@ -126,38 +125,55 @@ function updateProduct(req, res) {
 
 
 //POST SELL
-function postSell(req, res) {
-	console.log('postSell', req.body);
-	res.send(req.body);
+function getTotal(array) {
+	//para cada elemento del array, sumar todos los totales
+	var total = 0;
+	array.forEach(item => total = total + item.total);
+	return(total);
 }
 
-app.post('/sell', postSell);
+function postSell(req, res) {
+	console.log('postSell', req.body);
+	var newSell = {
+		client: req.body.client,
+		items: req.body.items,
+		total: getTotal(req.body.items)
+	}
+	var docRef = db.collection('ventas').doc();
+	var setSell = docRef.set({
+	  		client: newSell.client,
+	  		total: parseInt(newSell.total)
+		});
+
+	//reccorrer el array de items y hacer esyo por cad auno
+	var arrayItems = req.body.items;
+	arrayItems.forEach(item => {
+		var itemsRefCollection = docRef.collection('items').doc(item.code);
+		itemsRefCollection.set(item);
+	})
+
+	res.send(newSell);
+}
+
+
 
 
 
 
 //todas las definiciones del Router juntas
 //GET
-app.get('/', getProductsHandler);
-app.get('/:code', getProductHandler);
+app.get('/product', getProductsHandler);
+app.get('/product/:code', getProductHandler);
 //POST
 app.post('/product', postProduct);
 //PUT
-app.put('/product', updateProduct);
+app.put('/product/:code', updateProduct);
+//POST
+app.post('/sell', postSell);
 //DELETE
-//Que quisiera borrar?? porque productos es medio
+//Que quisiera borrar?? 
 //app.delete('/code', delete);
 
 // Monto la aplicacion en /api
 // Expose Express API as a single Cloud Function:
 exports.api = functions.https.onRequest(app);
-
-
-
-
-// recurso alias a un modelo (producto, venta, auto, etc)
-//   GET /<recurso>/  listar todo
-//   GET /<recurso>/<id>/  tomar uno o 404
-//   POST /<recurso>/      crear un recurso
-//   PUT /<recurso>/<id>/  actualizar un recurso
-//   DELETE /<recurso>/<id>/ Eliminar un recurso
