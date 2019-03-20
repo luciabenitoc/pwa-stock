@@ -1,4 +1,4 @@
-import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_SELL, NEW_PRODUCT, UPDATE_PRODUCT } from './types';
+import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_SELL, NEW_PRODUCT, UPDATE_PRODUCT, NOTFOUND_PRODUCT } from './types';
 
 //const PRODUCT_MOCK = {
 //	code: '1234',
@@ -10,8 +10,9 @@ const API_URL = 'http://localhost:5001/proyecto-pwa-f2f10/us-central1/api/';
 //const API_URL = 'https://us-central1-proyecto-pwa-f2f10.cloudfunctions.net/api/';
 
 export const fetchProducts = () => dispatch => {
-	console.log(API_URL);
-	fetch(API_URL)
+	const url = API_URL + 'product/'
+	console.log(url);
+	fetch(url)
 	.then(res => res.json())
 	.then(products =>
 		dispatch({
@@ -23,16 +24,24 @@ export const fetchProducts = () => dispatch => {
 
 
 export const fetchProduct = (productCode) => dispatch => {
-	const url = API_URL + productCode;
-	console.log('Pidiendo url: ', url);
+	const url = API_URL + 'product/' + productCode;
+	console.log(url);
 	fetch(url)
-	.then(res => res.json())
-	.then(product => 
-		dispatch({
-		type: FETCH_PRODUCT,
-		payload: product
-		})
-	);	
+	.then(res => {
+		if (res.ok) {
+			res.json().then(product => {
+				dispatch({
+					type: FETCH_PRODUCT,
+					payload: product
+				})
+			})
+		} else {
+			dispatch({
+				type: NOTFOUND_PRODUCT,
+				code: productCode
+			})
+		}
+	});	
 }
 
 
@@ -106,7 +115,6 @@ export const createSell = (data) => dispatch=> {
 			}
 		]
 	}
-
 	const url = API_URL + 'sell/';
 	fetch(url , {
 		method: 'POST',
