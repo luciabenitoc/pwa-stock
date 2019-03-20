@@ -3,7 +3,7 @@ import Proptypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchProduct, updateProduct } from '../actions/productActions';
 
-class SearchCodeForEdit extends Component {
+class EditProduct extends Component {
 	constructor (props){
 		super(props);
 		this.state = {
@@ -11,8 +11,9 @@ class SearchCodeForEdit extends Component {
 			code: '',
 			price: '',
 			price_end: '',
-			cant_product: '',
-			description: ''
+			cant: '',
+			description: '',
+			imagen:''
 		}
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
@@ -31,7 +32,8 @@ class SearchCodeForEdit extends Component {
 			description: this.state.description,
 			price: this.state.price,
 			price_end: this.state.price_end,
-			cant_product: this.state.cant_product
+			cant: this.state.cant,
+			imagen: this.state.imagen
 		}
 		//call action
 		console.log('mande a guardar producto', product);
@@ -51,7 +53,8 @@ class SearchCodeForEdit extends Component {
 				'description': nextProps.product.description,
 				'price': nextProps.product.price,
 				'price_end': nextProps.product.price_end,
-				'cant_product': nextProps.product.cant_product
+				'cant': nextProps.product.cant,
+				'imagen': nextProps.product.imagen
 			});
 		}
 	}
@@ -61,11 +64,11 @@ class SearchCodeForEdit extends Component {
 			<div className="container">
 				<h1> Editar Producto </h1>
 				<div className="alert alert-primary" role="alert">
-					Verificar que el código a ingresar sea correcto!
+					Verificar que el código a editar se encuentre previamente en stock!
 				</div>
 				<form onSubmit={this.onSubmit}>
 					<div className="row">
-						<div className="form-group col-sm-4">
+						<div className="form-group col-sm-2">
 							<label className="col-form-label" htmlFor="code">Código: </label> <br />
 							<div className="input-group">
 								<input className="form-control" type="text" name="code" id="code" onChange={this.onChange} value={ this.state.code } />
@@ -74,9 +77,13 @@ class SearchCodeForEdit extends Component {
 						  		</div>
 						  	</div>
 						</div>
-						<div className="form-group col-sm-8" style={{display: this.state.product ? 'block' : 'none' }}>
+						<div className="form-group col-sm-6" style={{display: this.state.product ? 'block' : 'none' }}>
 							<label className="col-form-label" htmlFor="product">Producto: </label> <br />
 							<input className="form-control" type="text" name="product" id="product" onChange={this.onChange} value={ this.state.product } />
+						</div>
+						<div className="form-group col-sm-4" style={{display: this.state.product ? 'block' : 'none' }}>
+							<label className="col-form-label" htmlFor="imagen">Imagen: </label> <br />
+							<input className="form-control" type="text" name="imagen" id="imagen" onChange={this.onChange} value={ this.state.imagen} /> 
 						</div>
 					</div>
 					<div style={{display: this.state.product ? 'block' : 'none' }}>
@@ -90,8 +97,8 @@ class SearchCodeForEdit extends Component {
 								<input className="form-control" type="text" name="price_end" id="price_end" onChange={this.onChange} value={this.state.price_end} />
 							</div>
 							<div className="form-group col-sm-4">
-								<label className="col-form-label" htmlFor="cant_product">Cantidad: </label> <br />
-								<input className="form-control" type="text" name="cant_product" id="cant_product" onChange={this.onChange} value={this.state.cant_product} />
+								<label className="col-form-label" htmlFor="cant">Cantidad: </label> <br />
+								<input className="form-control" type="text" name="cant" id="cant" onChange={this.onChange} value={this.state.cant} />
 							</div>
 						</div>
 						<div className="row">
@@ -105,7 +112,7 @@ class SearchCodeForEdit extends Component {
 					<br />
 					<div className="row justify-content-md-center">
 						<button className="col-md-2 btn btn-danger" onClick={() => this.props.history.push("/")}> Cancelar </button>
-						<button className="col-md-2  btn btn-info" type="submit" onClick={this.onSubmit} > Guardar </button>
+						<button className="col-md-2  btn btn-info" type="submit" onClick={this.onSubmit} style={{display: this.state.product ? 'block' : 'none' }}> Guardar </button>
 					</div>
 				</form>
 			</div>
@@ -114,14 +121,15 @@ class SearchCodeForEdit extends Component {
 }
 
 const mapStateProps = state=> ({
-	product: state.products.item
+	product: state.products.item,
+	notFoundProduct: state.products.notFoundProduct
 });
 
 const mapDispatchToProps = {fetchProduct, updateProduct}; 
 
-SearchCodeForEdit.Proptypes = {
+EditProduct.Proptypes = {
 	fetchProduct: Proptypes.func.isRequired,
 	updateProduct: Proptypes.func.isRequired
 }
 
-export default connect(mapStateProps, mapDispatchToProps)(SearchCodeForEdit);
+export default connect(mapStateProps, mapDispatchToProps)(EditProduct);
