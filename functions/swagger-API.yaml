@@ -1,0 +1,201 @@
+swagger: "2.0"
+info:
+  description: "s"
+  version: "1.0.0"
+  title: "Swagger Stock"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "petstore.swagger.io"
+basePath: "/v2"
+tags:
+- name: "product"
+  description: "Everything about your Products"
+- name: "sell"
+  description: "Operations about sell"
+- name: "sell-item"
+  description: "Items in a sell"
+- name: "buy"
+  description: "Buy to update stock"
+schemes:
+- "https"
+paths:
+  /product:
+    post:
+      tags:
+      - "product"
+      summary: "Add a new product to the stock"
+      description: ""
+      operationId: "addProduct"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Product object that needs to be added to the stock"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        400:
+          description: "Invalid Parameters"
+        201: 
+          description: "Created Successfully"
+    put:
+      tags:
+      - "product"
+      summary: "Update an existing product"
+      description: ""
+      operationId: "updateProduct"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Product object that needs to be added to the stock"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Product not found"
+        405:
+          description: "Validation exception"
+  /product/:
+    get:
+      tags:
+      - "product"
+      summary: "Get All Products"
+      description: ""
+      operationId: "getAll"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Product"
+  /product/{code}:
+    get:
+      tags:
+      - "product"
+      summary: "Find product by code"
+      description: "Returns a single product"
+      operationId: "getProductByCode"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "code"
+        in: "path"
+        description: "Code of product to return"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Product not found"
+  /sell:
+    post:
+      tags:
+      - "sell"
+      summary: "Add a new sell to the market"
+      description: ""
+      operationId: "addSell"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Add a new sell"
+        required: true
+        schema:
+          $ref: "#/definitions/Sell"
+      responses:
+        400:
+          description: "Invalid Parameters"
+        201: 
+          description: "Created Successfully"
+  
+definitions:
+  Product:
+    type: "object"
+    required:
+    - "code"
+    - "name"
+    - "description"
+    - "quantity"
+    - "sell_price"
+    - "buy_price"
+    properties:
+      code:
+        type: "string"
+        example: "AAA000"
+      name:
+        type: "string"
+        example: "automate"
+      description:
+        type: "string"
+        example: "Mate con termo incluido"
+      quantity:
+        type: "integer"
+        example: "3"
+      sell_price:
+        type: "number"
+        example: 220.0
+      buy_sell:
+        type: "number"
+        example: 180.5
+  Sell:
+    type: "object"
+    required:
+      - "id"
+      - "fecha"
+      - "customer_name"
+    properties:
+      id:
+        type: "integer"
+        example: "1"
+      fecha:
+        type: "string"
+        format: "date-time"
+        example: ""
+      customer_name: 
+        type: "string"
+        example: "Pepito"
+  SellItem:
+    type: "object"
+    required:
+      - "product_code"
+      - "quantity"
+      - "sell_price"
+    properties:
+      product_code: 
+        type: "string"
+        example: "AAA000"
+      quantity: 
+        type: "integer"
+        example: "2"
+      sell_price:
+        type: "number"
+        example: "180.5"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
