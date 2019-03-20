@@ -30,7 +30,35 @@ h4 {
 	border-color: #d92b52;
 }
 
+.menu-title {
+    padding-top: 25px;
+}
+
 .product-item {
 	margin-bottom: 30px;
 }
 
+/*For the List Product */
+.card-product {
+	padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+h1.card-title {
+	font-size: 15px
+}
+
+.badge-cant {
+	color: white;
+	background-color: #28a745;
+	padding: 0.5em 1em;
+}
+
+p.card-text {
+	font-size: 12px;
+}
+
+.card-footer .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
