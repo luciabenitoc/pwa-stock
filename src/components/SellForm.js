@@ -43,9 +43,7 @@ class PostSaleForm extends Component {
 	onClickSearch(event) {
 		if (this.state.code !== null) {
 			this.props.fetchProduct(this.state.code);
-		} 
-		//call action
-		//this.props.createPost(post);
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -53,7 +51,7 @@ class PostSaleForm extends Component {
 			this.setState({
 				'product': nextProps.product.product,
 				'description': nextProps.product.description,
-				'price_end': nextProps.product.price_end
+				'price_end': nextProps.product.price_end,
 			});
 		}
 		if (nextProps.newSell) {

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import PostForm from './PostForm';
 import Posts from './Posts';
 import SellForm from './SellForm';
-import SearchCode from './SearchCode';
+import EditProduct from './EditProduct';
 import MenuAdmin from './MenuAdmin';
 
 
@@ -18,7 +18,7 @@ const Root = ({ store }) => (
       			<Route path="/newSell" component= {SellForm} />
             {/* <Route path="/listSell" component= {ListSell} /> */}
       			<Route path="/newProduct" component={PostForm} />
-      			<Route path="/edit" component={SearchCode} />
+      			<Route path="/edit" component={EditProduct} />
       		</div>
     	</Router>
   	</Provider>

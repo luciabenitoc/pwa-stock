@@ -14,22 +14,16 @@ class PostForm extends Component {
 			description: '',
 			price: '',
 			price_end: '',
-			cant_product: ''
+			cant_product: '',
+			imagen:'',
 		}
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 		this.getTotal = this.getTotal.bind(this);
-		this.onClickSearch = this.onClickSearch.bind(this);
 	}
 
 	onChange(event) {
 		this.setState({[event.target.name]: event.target.value});
-	}
-
-	onClickSearch(event) {
-		if (this.state.code !== null) {
-			this.props.fetchProduct(this.state.code);
-		}
 	}
 
 	getTotal() {
@@ -49,7 +43,8 @@ class PostForm extends Component {
 			description:  this.state.description,
 			price: this.state.price,
 			price_end: this.getTotal(),
-			cant_product: this.state.cant_product
+			cant_product: this.state.cant_product,
+			imagen: this.state.imagen
 		}
 		//call action
 		console.log('carga producto', product);
@@ -61,7 +56,8 @@ class PostForm extends Component {
 			this.setState({
 				'product': nextProps.product.product,
 				'description': nextProps.product.description,
-				'price_end': nextProps.product.price_end
+				'price_end': nextProps.product.price_end,
+				'imagen': nextProps.product.imagen
 			});
 		}
 		if (nextProps.newProduct) {
@@ -74,22 +70,23 @@ class PostForm extends Component {
 			<div className="container">
 				<h1> Agregar un Producto Nuevo </h1>
 				<div className="alert alert-primary" role="alert">
-					Verificar que el código a ingresar no este ingresado aun!
+					Aun no verifica que el codigo ingresado no este ya cargado!
 				</div>
 				<form onSubmit={this.onSubmit}>
 					<div className="row">
-						<div className="form-group col-sm-4">
+						<div className="form-group col-sm-2">
 							<label className="col-form-label" htmlFor="code">Código: </label> <br />
 							<div className="input-group">
 								<input className="form-control" type="text" name="code" id="code" onChange={this.onChange} value={ this.state.code } />
-								<div className="input-group-append">
-						    		<button onClick={this.onClickSearch} className="btn btn-outline-secondary" type="button"><i className="fa fa-thumbs-up"></i></button>
-						  		</div>
 						  	</div>
 						</div>
-						<div className="form-group col-sm-8">
+						<div className="form-group col-sm-6">
 							<label className="col-form-label" htmlFor="product">Producto: </label> <br />
 							<input className="form-control" type="text" name="product" id="product" onChange={this.onChange} value={ this.state.product } />
+						</div>
+						<div className="form-group col-sm-4">
+							<label className="col-form-label" htmlFor="imagen">Imagen: </label> <br />
+							<input className="form-control" type="text" name="imagen" id="imagen" onChange={this.onChange} value={ this.state.imagen} /> 
 						</div>
 					</div>
 					<div className="row">
