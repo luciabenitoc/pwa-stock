@@ -28,9 +28,13 @@ function getProductsHandler(req, res) {
 			docData.code = doc.id;
 			products.push(docData);
 		})
+		return products;
 	}).then(() => {
 		res.status(200).send(products);
-    });
+		return null;
+	}).catch(error => {
+		console.log("Errors: ", error)
+	});
 }
 
 
@@ -58,17 +62,22 @@ function getProductHandler(req, res) {
 			docData.code = doc.id;
 			products.push(docData);
      	})
+     	return products;
     }).then(() => {
 		//si recorri todos los Products y no encontre el code debo responder status 404 product not found 
 		if (products.length === 0) {
 			//es que esta vacio el nuevo array por ende no lo encontre
 		 	//deberia devolver el 404 
 		 	res.status(404).send();
+		 	return null;
 		} else {
 			//lo encontro, lo devuelve y esta todo ok
 			res.status(200).send(products[0]);
+			return null;
 		}
-	})
+	}).catch(error => {
+    	console.log("Errors: ", error)
+    });
 }
 
 
@@ -111,6 +120,7 @@ function updateProduct(req, res) {
 		var data = req.body;
 		data.id = code;
 		res.send(data);
+		return null;
 	});
 }
 
