@@ -18,7 +18,8 @@ class MenuAdmin extends Component {
       						<small>3 days ago</small>
       						<small className="sr-only sr-only-focusable">Fecha en que se cargo la ultima venta</small>
     					</div>
-    					<p className="mb-1">Permite cargar los datos de una venta. Producto vendido, a quien.</p>
+    					<p className="mb-1">Permite cargar los datos de una venta.</p>
+    					<small>Por código de producto. Una venta involucra un producto.</small>
 					</a>
 
 					<a onClick={() => this.props.history.push("/listSell")} className="list-group-item list-group-item-action">
@@ -27,7 +28,8 @@ class MenuAdmin extends Component {
       						<small>3 days ago</small>
       						<small className="sr-only sr-only-focusable">Fecha en que se listo por ultima vez</small>
     					</div>
-    					<p className="mb-1">Permite listar todas las ventas cargadas, en orden.</p>
+    					<p className="mb-1">Permite listar todas las ventas cargadas.</p>
+    					<small>Proximamente :)</small>
 					</a>
 					
 					<a onClick={() => this.props.history.push("/edit")} className="list-group-item list-group-item-action">
@@ -36,7 +38,7 @@ class MenuAdmin extends Component {
       						<small>3 days ago</small>
     					</div>
     					<p className="mb-1">Permite actualizar el stock o editar producto existente.</p>
-    					<small>Pensar como lograr esta doble funcionalidad.</small>
+    					<small>Buqueda por código de producto.</small>
 					</a>
 
 					<a onClick={() => this.props.history.push("/stock")} className="list-group-item list-group-item-action">
