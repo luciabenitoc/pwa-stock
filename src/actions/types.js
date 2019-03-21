@@ -4,3 +4,4 @@ export const NEW_PRODUCT = 'NEW_PRODUCT';
 export const NEW_SELL = 'NEW_SELL';
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 export const NOTFOUND_PRODUCT = 'NOTFOUND_PRODUCT';
+export const LOADING = 'LOADING';

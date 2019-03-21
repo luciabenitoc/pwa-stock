@@ -1,9 +1,10 @@
-import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_PRODUCT, UPDATE_PRODUCT, NEW_SELL, NOTFOUND_PRODUCT } from '../actions/types';
+import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_PRODUCT, UPDATE_PRODUCT, NEW_SELL, NOTFOUND_PRODUCT, LOADING } from '../actions/types';
 
 const initialState = {
 	items: [],
 	item: {},
-	newSell: null
+	newSell: null,
+	loading: false
 }
 
 export default function(state = initialState, action){
@@ -17,7 +18,8 @@ export default function(state = initialState, action){
 		console.log(action.payload);
 		return {
 			...state,
-			items: action.payload
+			items: action.payload,
+			loading: false
 		}
 		case NEW_PRODUCT:
 		return {
@@ -38,6 +40,11 @@ export default function(state = initialState, action){
 		return {
 			...state,
 			notFoundProduct: action.code
+		}
+		case LOADING:
+		return {
+			...state,
+			loading: true
 		}
 		default:
 			return state;

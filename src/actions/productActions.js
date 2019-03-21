@@ -1,4 +1,4 @@
-import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_SELL, NEW_PRODUCT, UPDATE_PRODUCT, NOTFOUND_PRODUCT } from './types';
+import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_SELL, NEW_PRODUCT, UPDATE_PRODUCT, NOTFOUND_PRODUCT, LOADING } from './types';
 
 //const PRODUCT_MOCK = {
 //	code: '1234',
@@ -10,6 +10,9 @@ const API_URL = 'http://localhost:5001/proyecto-pwa-f2f10/us-central1/api/';
 //const API_URL = 'https://us-central1-proyecto-pwa-f2f10.cloudfunctions.net/api/';
 
 export const fetchProducts = () => dispatch => {
+	dispatch({
+		type: LOADING,
+	})
 	const url = API_URL + 'product/'
 	console.log(url);
 	fetch(url)

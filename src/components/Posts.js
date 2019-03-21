@@ -25,6 +25,10 @@ class Products extends Component {
 	}
 
 	render() {
+		if (this.props.loading) {
+			return <div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>;
+		}
+
 		const productItems = this.props.products.map( product => (
 			
 	   		<div key={ product.code } className="col-lg-3 col-md-4 col-sm-12 card-product">
@@ -35,7 +39,7 @@ class Products extends Component {
 					<div className="card-footer">
 						<div className="row">
 							<h1 className="card-title">{ product.code }-</h1>
-							<h1 className="card-title">{ product.product_name }</h1>
+							<h1 className="card-title">{ product.product }</h1>
 						</div>
 					  	<p className="card-text d-sm-block d-none">{ product.description }</p>
 		      			<small className="text-muted">${ product.price_end }</small>
@@ -67,7 +71,8 @@ Products.proptypes = {
 
 const mapStateToprops = state => ({
 	products: state.products.items,
-	newProduct: state.products.item
+	newProduct: state.products.item,
+	loading: state.products.loading
 });
 
 export default connect(mapStateToprops, { fetchProducts })(Products);
