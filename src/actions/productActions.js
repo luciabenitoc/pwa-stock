@@ -27,6 +27,9 @@ export const fetchProducts = () => dispatch => {
 
 
 export const fetchProduct = (productCode) => dispatch => {
+	dispatch({
+		type: LOADING,
+	})
 	const url = API_URL + 'product/' + productCode;
 	console.log(url);
 	fetch(url)
@@ -113,7 +116,7 @@ export const createSell = (data) => dispatch=> {
 				price_end: data.price_end,
 				cant_sell: data.cant_sell,
 				code: data.code,
-				product: data.product,
+				name: data.name,
 				total: data.total,
 			}
 		]
