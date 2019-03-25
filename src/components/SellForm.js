@@ -9,7 +9,7 @@ class PostSaleForm extends Component {
 		super(props);
 		this.state = {
 			code:'',
-			product: '',
+			name: '',
 			description: '',
 			price_end:'',
 			cant_sell:'',
@@ -29,7 +29,7 @@ class PostSaleForm extends Component {
 		event.preventDefault();
 		const sell = {
 			code: this.state.code,
-			product: this.state.product,
+			name: this.state.name,
 			description: this.state.description,
 			price_end: this.state.price_end,
 			cant_sell: this.state.cant_sell,
@@ -49,7 +49,7 @@ class PostSaleForm extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.product) {
 			this.setState({
-				'product': nextProps.product.product,
+				'name': nextProps.product.name,
 				'description': nextProps.product.description,
 				'price_end': nextProps.product.price_end,
 			});
@@ -61,6 +61,9 @@ class PostSaleForm extends Component {
 	}
 
 	render() {
+		if (this.props.loading) {
+			return <div className="d-flex justify-content-center"><span>Cargando...</span></div>;
+		}
 		console.log(this.props);
 		return (
 			<div className="container"> 
@@ -77,8 +80,8 @@ class PostSaleForm extends Component {
 							</div>					
 						</div>
 						<div className="form-group col-sm-8">
-							<label className="col-form-label" htmlFor="product">Producto: </label> <br />
-							<input className="form-control" type="text" name="product" id="product" onChange={this.onChange} value={ this.state.product } disabled/>
+							<label className="col-form-label" htmlFor="name">Producto: </label> <br />
+							<input className="form-control" type="text" name="name" id="name" onChange={this.onChange} value={ this.state.name } disabled/>
 						</div>
 					</div>
 					<div className="row">	
@@ -97,7 +100,7 @@ class PostSaleForm extends Component {
 						<div className="col-md-3 col-6">
 							<div className="form-group">
 								<label className="col-form-label" htmlFor="cant_sell">Cantidad: </label> <br />
-								<input className="form-control" type="text" name="cant_sell" id="cant_sell" onChange={this.onChange} value={ this.state.cant_sell} disabled={!this.state.product}/>
+								<input className="form-control" type="text" name="cant_sell" id="cant_sell" onChange={this.onChange} value={ this.state.cant_sell} disabled={!this.state.name}/>
 							</div>
 						</div>
 						<div className="col-md-6 col-12">
@@ -110,7 +113,7 @@ class PostSaleForm extends Component {
 					<div className="row">
 						<div className="form-group col-sm-12">
 							<label className="col-form-label" htmlFor="client">Cliente: </label> <br />
-							<input className="form-control" type="text" name="client" id="client" onChange={this.onChange} value={ this.state.client } disabled={!this.state.product}/>
+							<input className="form-control" type="text" name="client" id="client" onChange={this.onChange} value={ this.state.client } disabled={!this.state.name}/>
 						</div>
 					</div>
 					<br />
@@ -126,7 +129,8 @@ class PostSaleForm extends Component {
 
 const mapStateToProps = state => ({
 	product: state.products.item,
-	newSell: state.products.newSell
+	newSell: state.products.newSell,
+	loading: state.products.loading
 });
 
 const mapDispatchToProps = {fetchProduct, createSell};

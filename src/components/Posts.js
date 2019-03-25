@@ -26,7 +26,7 @@ class Products extends Component {
 
 	render() {
 		if (this.props.loading) {
-			return <div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>;
+			return <div className="d-flex justify-content-center"><span>Cargando...</span></div>;
 		}
 
 		const productItems = this.props.products.map( product => (
@@ -39,7 +39,7 @@ class Products extends Component {
 					<div className="card-footer">
 						<div className="row">
 							<h1 className="card-title">{ product.code }-</h1>
-							<h1 className="card-title">{ product.product }</h1>
+							<h1 className="card-title">{ product.name }</h1>
 						</div>
 					  	<p className="card-text d-sm-block d-none">{ product.description }</p>
 		      			<small className="text-muted">${ product.price_end }</small>
@@ -50,9 +50,13 @@ class Products extends Component {
 			));
 		return (
 			<div className="container">
-				<div className="row justify-content-between">
-					<h1 className="menu-title"> Listado de Productos</h1>
-					<button className="col-lg-3 btn btn-info" onClick={() => this.props.history.push("/newProduct")}>Nuevo</button>
+				<div className="row">
+					<div className="col-lg-9 col-12"> 
+						<h1 className="menu-title"> Listado de Productos</h1>
+					</div>
+					<div className="col-lg-3 col-12"> 
+						<button type="button" className="btn btn-info btn-block" onClick={() => this.props.history.push("/newProduct")}>Nuevo</button>
+					</div>
 				</div>
 				<br/>
 				<div className="row">

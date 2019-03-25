@@ -7,7 +7,7 @@ class EditProduct extends Component {
 	constructor (props){
 		super(props);
 		this.state = {
-			product: '',
+			name: '',
 			code: '',
 			price: '',
 			price_end: '',
@@ -28,7 +28,7 @@ class EditProduct extends Component {
 		event.preventDefault();
 		const product = {
 			code: this.state.code,
-			product: this.state.product,
+			name: this.state.name,
 			description: this.state.description,
 			price: this.state.price,
 			price_end: this.state.price_end,
@@ -49,7 +49,7 @@ class EditProduct extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.product) {
 			this.setState({
-				'product': nextProps.product.product,
+				'name': nextProps.product.name,
 				'description': nextProps.product.description,
 				'price': nextProps.product.price,
 				'price_end': nextProps.product.price_end,
@@ -60,6 +60,9 @@ class EditProduct extends Component {
 	}
 
 	render(){
+		if (this.props.loading) {
+			return <div className="d-flex justify-content-center"><span>Cargando...</span></div>;
+		}
 		return (
 			<div className="container">
 				<h1> Editar Producto </h1>
@@ -77,16 +80,16 @@ class EditProduct extends Component {
 						  		</div>
 						  	</div>
 						</div>
-						<div className="form-group col-sm-6" style={{display: this.state.product ? 'block' : 'none' }}>
-							<label className="col-form-label" htmlFor="product">Producto: </label> <br />
-							<input className="form-control" type="text" name="product" id="product" onChange={this.onChange} value={ this.state.product } />
+						<div className="form-group col-sm-6" style={{display: this.state.name ? 'block' : 'none' }}>
+							<label className="col-form-label" htmlFor="name">Producto: </label> <br />
+							<input className="form-control" type="text" name="name" id="name" onChange={this.onChange} value={ this.state.name } />
 						</div>
-						<div className="form-group col-sm-4" style={{display: this.state.product ? 'block' : 'none' }}>
+						<div className="form-group col-sm-4" style={{display: this.state.name ? 'block' : 'none' }}>
 							<label className="col-form-label" htmlFor="imagen">Imagen: </label> <br />
 							<input className="form-control" type="text" name="imagen" id="imagen" onChange={this.onChange} value={ this.state.imagen} /> 
 						</div>
 					</div>
-					<div style={{display: this.state.product ? 'block' : 'none' }}>
+					<div style={{display: this.state.name ? 'block' : 'none' }}>
 						<div className="row">
 							<div className="form-group col-sm-4">
 								<label className="col-form-label" htmlFor="price">Precio: </label> <br />
@@ -112,7 +115,7 @@ class EditProduct extends Component {
 					<br />
 					<div className="row justify-content-md-center">
 						<button className="col-md-2 btn btn-danger" onClick={() => this.props.history.push("/")}> Cancelar </button>
-						<button className="col-md-2  btn btn-info" type="submit" onClick={this.onSubmit} style={{display: this.state.product ? 'block' : 'none' }}> Guardar </button>
+						<button className="col-md-2  btn btn-info" type="submit" onClick={this.onSubmit} style={{display: this.state.name ? 'block' : 'none' }}> Guardar </button>
 					</div>
 				</form>
 			</div>
@@ -122,7 +125,8 @@ class EditProduct extends Component {
 
 const mapStateProps = state=> ({
 	product: state.products.item,
-	notFoundProduct: state.products.notFoundProduct
+	notFoundProduct: state.products.notFoundProduct,
+	loading: state.products.loading
 });
 
 const mapDispatchToProps = {fetchProduct, updateProduct}; 

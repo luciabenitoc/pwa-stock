@@ -10,11 +10,11 @@ class PostForm extends Component {
 		super(props);
 		this.state = {
 			code: '',
-			product: '',
+			name: '',
 			description: '',
 			price: '',
 			price_end: '',
-			cant_product: '',
+			cant: '',
 			imagen:'',
 		}
 		this.onChange = this.onChange.bind(this);
@@ -39,11 +39,11 @@ class PostForm extends Component {
 		event.preventDefault();
 		const product = {
 			code: this.state.code,
-			product: this.state.product,
+			name: this.state.name,
 			description:  this.state.description,
 			price: this.state.price,
 			price_end: this.getTotal(),
-			cant_product: this.state.cant_product,
+			cant: this.state.cant,
 			imagen: this.state.imagen
 		}
 		//call action
@@ -54,7 +54,7 @@ class PostForm extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.product) {
 			this.setState({
-				'product': nextProps.product.product,
+				'name': nextProps.product.name,
 				'description': nextProps.product.description,
 				'price_end': nextProps.product.price_end,
 				'imagen': nextProps.product.imagen
@@ -81,8 +81,8 @@ class PostForm extends Component {
 						  	</div>
 						</div>
 						<div className="form-group col-sm-6">
-							<label className="col-form-label" htmlFor="product">Producto: </label> <br />
-							<input className="form-control" type="text" name="product" id="product" onChange={this.onChange} value={ this.state.product } />
+							<label className="col-form-label" htmlFor="name">Producto: </label> <br />
+							<input className="form-control" type="text" name="name" id="name" onChange={this.onChange} value={ this.state.name } />
 						</div>
 						<div className="form-group col-sm-4">
 							<label className="col-form-label" htmlFor="imagen">Imagen: </label> <br />
@@ -99,8 +99,8 @@ class PostForm extends Component {
 							<input className="form-control" type="text" name="price_end" id="price_end" value={this.getTotal()} readOnly />
 						</div>
 						<div className="form-group col-sm-4">
-							<label className="col-form-label" htmlFor="cant_product">Cantidad: </label> <br />
-							<input className="form-control" type="text" name="cant_product" id="cant_product" onChange={this.onChange} value={this.state.cant_product} />
+							<label className="col-form-label" htmlFor="cant">Cantidad: </label> <br />
+							<input className="form-control" type="text" name="cant" id="cant" onChange={this.onChange} value={this.state.cant} />
 						</div>
 					</div>
 					<div className="row">
