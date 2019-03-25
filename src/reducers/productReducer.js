@@ -12,7 +12,8 @@ export default function(state = initialState, action){
 		case FETCH_PRODUCT:
 		return {
 			...state,
-			item: action.payload
+			item: action.payload,
+			loading: false
 		};
 		case FETCH_PRODUCTS:
 		console.log(action.payload);
