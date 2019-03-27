@@ -67,6 +67,22 @@ class Products extends Component {
 	}
 }
 
+function orderByCant (state) {
+	let array = state.products.items
+	array.sort(function (itemA, itemB) {
+		if (itemA.cant < itemB.cant) {
+			console.log(itemA.cant);
+			return 1;
+		}
+		if (itemA.cant > itemB.cant) {
+			return -1;
+		}
+		return 0;
+	});
+	console.log('ordenado', array);
+	return array;
+}
+
 Products.proptypes = {
 	fetchProducts: PropTypes.func.isRequired, 
 	products: PropTypes.array.isRequired,
@@ -74,7 +90,7 @@ Products.proptypes = {
 }
 
 const mapStateToprops = state => ({
-	products: state.products.items,
+	products: orderByCant(state),
 	newProduct: state.products.item,
 	loading: state.products.loading
 });
