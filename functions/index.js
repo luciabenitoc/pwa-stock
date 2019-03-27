@@ -56,11 +56,20 @@ function getProductHandler(req, res) {
 	var codeReq = req.params.code;
 	const stockCollection = db.collection('stock');
 	const products = [];
-	stockCollection.where('code', '==', codeReq).get().then(snapshot => {
+	/**stockCollection.where('code', '==', codeReq).get().then(snapshot => {
 		snapshot.forEach(doc => {
 			let docData = doc.data();
 			docData.code = doc.id;
 			products.push(docData);
+     	})
+     	return products; **/
+    stockCollection.get().then(snapshot => {
+		snapshot.forEach(doc => {
+			let docData = doc.data();
+			docData.code = doc.id;
+			if (docData.code === codeReq) {
+				products.push(docData);	
+			}
      	})
      	return products;
     }).then(() => {
@@ -85,7 +94,7 @@ function getProductHandler(req, res) {
 function createProduct(body) {
 	var newProduct= {
 		code: body.code,
-		product: body.product,
+		name: body.name,
 		description: body.description,
 		price: body.price,
 		price_end: body.price_end,
@@ -101,7 +110,7 @@ function postProduct(req, res) {
 
 	var docRef = db.collection('stock').doc(newProduct.code);
 	var setStock = docRef.set({
-	  product_name: newProduct.product,
+	  name: newProduct.name,
 	  description: newProduct.description,
 	  price: parseFloat(newProduct.price),
 	  price_end: parseFloat(newProduct.price_end),
@@ -155,7 +164,7 @@ function postSell(req, res) {
 	  		total: parseInt(newSell.total)
 		});
 
-	//reccorrer el array de items y hacer esyo por cad auno
+	//reccorrer el array de items y hacer esto por cada uno
 	var arrayItems = req.body.items;
 	arrayItems.forEach(item => {
 		var itemsRefCollection = docRef.collection('items').doc(item.code);
