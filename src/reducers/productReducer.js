@@ -40,6 +40,7 @@ export default function(state = initialState, action){
 		case NOTFOUND_PRODUCT:
 		return {
 			...state,
+			loading: false,
 			notFoundProduct: action.code
 		}
 		case LOADING:
