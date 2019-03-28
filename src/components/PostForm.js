@@ -68,7 +68,7 @@ class PostForm extends Component {
 	render() {
 		return (
 			<div className="container">
-				<h1> Agregar un Producto Nuevo </h1>
+				<h1 className="menu-title"> Agregar un Producto Nuevo </h1>
 				<div className="alert alert-primary" role="alert">
 					Aun no verifica que el codigo ingresado no este ya cargado!
 				</div>
