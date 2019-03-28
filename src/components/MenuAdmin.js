@@ -21,7 +21,7 @@ class MenuAdmin extends Component {
     					<p className="mb-1">Permite cargar los datos de una venta.</p>
     					<small>Por código de producto. Una venta involucra un producto.</small>
 					</a>
-
+					{/*				
 					<a onClick={() => this.props.history.push("/listSell")} className="list-group-item list-group-item-action">
 						<div className="d-flex w-100 justify-content-between">
       						<h4 className="card-title"><i className="far fa-list"></i> Listar Ventas</h4>
@@ -31,7 +31,7 @@ class MenuAdmin extends Component {
     					<p className="mb-1">Permite listar todas las ventas cargadas.</p>
     					<small>Proximamente :)</small>
 					</a>
-					
+					*/}
 					<a onClick={() => this.props.history.push("/edit")} className="list-group-item list-group-item-action">
 						<div className="d-flex w-100 justify-content-between">
       						<h4 className="card-title"><i className="far fa-edit"></i> Editar Producto / Actualizar Stock</h4>
