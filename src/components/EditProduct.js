@@ -60,15 +60,14 @@ class EditProduct extends Component {
 	}
 
 	render(){
+		
 		if (this.props.loading) {
-			return <div className="d-flex justify-content-center"><span>Cargando...</span></div>;
+			return <div className="d-flex justify-content-center"><span>Buscando...</span></div>;
 		}
+
 		return (
 			<div className="container">
-				<h1> Editar Producto </h1>
-				<div className="alert alert-primary" role="alert">
-					Verificar que el código a editar se encuentre previamente en stock!
-				</div>
+				<h1 className="menu-title"> Editar Producto </h1>
 				<form onSubmit={this.onSubmit}>
 					<div className="row">
 						<div className="form-group col-sm-2">
@@ -79,6 +78,10 @@ class EditProduct extends Component {
 						    		<button onClick={this.onClickSearch} className="btn btn-outline-secondary" type="button"><i className="fa fa-thumbs-up"></i></button>
 						  		</div>
 						  	</div>
+						</div>
+						<div className="alert alert-primary" role="alert" style={{display: this.props.notFoundProduct ? 'block' : 'none' }}>
+							El código no se encuentra en el stock! <br/> 
+							Verifiqué el código e ingreselo nuevamente.
 						</div>
 						<div className="form-group col-sm-6" style={{display: this.state.name ? 'block' : 'none' }}>
 							<label className="col-form-label" htmlFor="name">Producto: </label> <br />
