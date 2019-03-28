@@ -52,6 +52,7 @@ class PostSaleForm extends Component {
 				'name': nextProps.product.name,
 				'description': nextProps.product.description,
 				'price_end': nextProps.product.price_end,
+				'cant': nextProps.product.cant
 			});
 		}
 		if (nextProps.newSell) {
@@ -100,7 +101,7 @@ class PostSaleForm extends Component {
 						<div className="col-md-3 col-6">
 							<div className="form-group">
 								<label className="col-form-label" htmlFor="cant_sell">Cantidad: </label> <br />
-								<input className="form-control" type="text" name="cant_sell" id="cant_sell" onChange={this.onChange} value={ this.state.cant_sell} disabled={!this.state.name}/>
+								<input className="form-control" type="number" name="cant_sell" id="cant_sell" max={this.state.cant} min="1" onChange={this.onChange} value={ this.state.cant_sell} disabled={!this.state.name}/>
 							</div>
 						</div>
 						<div className="col-md-6 col-12">
