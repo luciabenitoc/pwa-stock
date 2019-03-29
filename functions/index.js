@@ -159,25 +159,32 @@ function postSell(req, res) {
 		total: getTotal(req.body.items)
 	}
 	var docRef = db.collection('ventas').doc();
-	var setSell = docRef.set({
-	  		client: newSell.client,
-	  		total: parseInt(newSell.total)
+	var transaction = db.runTransaction(t => {
+		var promises = [];
+		var setSell = docRef.set({
+			client: newSell.client,
+			total: parseInt(newSell.total)
 		});
+		var arrayItems = req.body.items;
+		arrayItems.forEach(item => {
+			var itemsRefCollection = docRef.collection('items').doc(item.code);
+			itemsRefCollection.set(item);
+			var productRef = db.collection('stock').doc(item.code);
+			const onePromise = t.get(productRef).then(doc => {
+				var productUp = productRef.update({cant: doc.data().cant - item.cant_sell})
+			})
+			promises.push(onePromise);
 
-	//reccorrer el array de items y hacer esto por cada uno
-	var arrayItems = req.body.items;
-	arrayItems.forEach(item => {
-		var itemsRefCollection = docRef.collection('items').doc(item.code);
-		itemsRefCollection.set(item);
-	})
-
+		});
+		return Promise.all(promises);
+	}).then(result => {
+		console.log('Transaction success!');
+	}).catch(err => {
+		console.log('Transaction failure:', err);
+	});
+			
 	res.send(newSell);
 }
-
-
-
-
-
 
 //todas las definiciones del Router juntas
 //GET
