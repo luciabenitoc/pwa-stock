@@ -14,7 +14,6 @@ export const fetchProducts = () => dispatch => {
 		type: LOADING,
 	})
 	const url = API_URL + 'product/'
-	console.log(url);
 	fetch(url)
 	.then(res => res.json())
 	.then(products =>
@@ -31,7 +30,6 @@ export const fetchProduct = (productCode) => dispatch => {
 		type: LOADING,
 	})
 	const url = API_URL + 'product/' + productCode;
-	console.log(url);
 	fetch(url)
 	.then(res => {
 		if (res.ok) {
