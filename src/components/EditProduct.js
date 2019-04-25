@@ -57,6 +57,7 @@ class EditProduct extends Component {
 				'imagen': nextProps.product.imagen
 			});
 		}
+		//debo volver al stock "history.push("/stock")"
 	}
 
 	render(){

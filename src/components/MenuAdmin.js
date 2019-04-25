@@ -32,9 +32,22 @@ class MenuAdmin extends Component {
     					<small>Proximamente :)</small>
 					</a>
 					*/}
+					<a onClick={() => this.props.history.push("/itemSell")} className="list-group-item list-group-item-action">
+						<div className="d-flex w-100 justify-content-between">
+      						<h4 className="card-title"><i className="far fa-list"></i> Item Ventas</h4>
+      						<small>3 days ago</small>
+      						<small className="sr-only sr-only-focusable">Fecha en que se listo por ultima vez</small>
+    					</div>
+    					<p className="mb-1">Permite listar todas las ventas cargadas.</p>
+    					<small>Proximamente :)</small>
+					</a>
+
+
+
+
 					<a onClick={() => this.props.history.push("/edit")} className="list-group-item list-group-item-action">
 						<div className="d-flex w-100 justify-content-between">
-      						<h4 className="card-title"><i className="far fa-edit"></i> Editar Producto / Actualizar Stock</h4>
+      						<h4 className="card-title"><i className="far fa-edit"></i> Editar Producto </h4>
       						<small>3 days ago</small>
     					</div>
     					<p className="mb-1">Permite actualizar el stock o editar producto existente.</p>
@@ -47,7 +60,8 @@ class MenuAdmin extends Component {
       						<small>3 days ago</small>
       						<small className="sr-only sr-only-focusable">Fecha de ultima actualización de stock.</small>
     					</div>
-    					<p className="mb-1">Permite visualizar el stock existente. Genera una lista de productos con cantidades existentes.</p>
+    					<p className="mb-1">Permite visualizar el stock existente.</p>
+    					<small>Genera una lista de productos con cantidades existentes. </small>
 					</a>
 				</div>
 			</div>

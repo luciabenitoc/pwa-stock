@@ -37,11 +37,9 @@ class Products extends Component {
 						<img className="card-img-top img-fluid" src={ product.imagen } href="#" />
 					</div>
 					<div className="card-footer">
-						<div className="row">
-							<h1 className="card-title">{ product.code }-</h1>
-							<h1 className="card-title">{ product.name }</h1>
-						</div>
-					  	<p className="card-text d-sm-block d-none">{ product.description }</p>
+						<h1 className="card-title text-muted">{ product.code }</h1>
+						<p className="card-text"><strong>{ product.name }</strong></p>
+						<p className="card-text d-sm-block d-none">{ product.description }</p>
 		      			<small className="text-muted">${ product.price_end }</small>
 		      			<span className="badge badge-cant float-right">{ product.cant }</span>
 			    	</div>
