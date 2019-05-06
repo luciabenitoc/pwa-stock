@@ -1,10 +1,22 @@
-import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_PRODUCT, UPDATE_PRODUCT, NEW_SELL, NOTFOUND_PRODUCT, LOADING } from '../actions/types';
+import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_PRODUCT, UPDATE_PRODUCT, NEW_SELL, NOTFOUND_PRODUCT, LOADING, DELETE_ITEM } from '../actions/types';
 
 const initialState = {
 	items: [],
 	item: {},
 	newSell: null,
-	loading: false
+	loading: false,
+}
+
+function notRepeat(array, atr) {
+	let newArray = [];
+	let codes = [];
+	array.forEach(item=> {
+		if (codes.indexOf(item[atr])< 0){
+			codes.push(item[atr]);
+			newArray.push(item);
+		};
+	});
+	return newArray;
 }
 
 export default function(state = initialState, action){
@@ -12,15 +24,16 @@ export default function(state = initialState, action){
 		case FETCH_PRODUCT:
 		return {
 			...state,
-			item: action.payload,
-			loading: false
+			items: notRepeat([...state.items, action.payload], 'code'),
+			loading: false,
+			notFoundProduct: action.code
 		};
 		case FETCH_PRODUCTS:
 		console.log(action.payload);
 		return {
 			...state,
 			items: action.payload,
-			loading: false
+			loading: false,
 		}
 		case NEW_PRODUCT:
 		return {
@@ -47,6 +60,11 @@ export default function(state = initialState, action){
 		return {
 			...state,
 			loading: true
+		}
+		case DELETE_ITEM:
+		return {
+			...state,
+			items: state.items.filter(item => item.code !== action.code )
 		}
 		default:
 			return state;
