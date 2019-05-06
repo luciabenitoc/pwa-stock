@@ -1,4 +1,4 @@
-import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_SELL, NEW_PRODUCT, UPDATE_PRODUCT, NOTFOUND_PRODUCT, LOADING } from './types';
+import { FETCH_PRODUCT, FETCH_PRODUCTS, NEW_SELL, NEW_PRODUCT, UPDATE_PRODUCT, NOTFOUND_PRODUCT, LOADING, DELETE_ITEM} from './types';
 
 //const PRODUCT_MOCK = {
 //	code: '1234',
@@ -135,3 +135,11 @@ export const createSell = (data) => dispatch=> {
 			})
 		);
 }
+
+export const deleteItem = (productCode) => dispatch=> {
+	console.log(productCode);
+	dispatch({
+		type: DELETE_ITEM,
+		code: productCode
+	})
+} 
